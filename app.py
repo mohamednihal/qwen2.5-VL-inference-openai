@@ -17,7 +17,7 @@ import base64
 from PIL import Image
 import io
 
-MODEL_DIR = "/app/models/Qwen2.5-VL-7B-Instruct"
+MODEL_DIR = "./models/Qwen2.5-VL-7B-Instruct"
 
 # Configure logging
 logging.basicConfig(
