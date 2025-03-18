@@ -69,7 +69,7 @@ class ChatMessage(BaseModel):
 class ChatCompletionRequest(BaseModel):
     model: str
     messages: List[ChatMessage]
-    temperature: Optional[float] = 0.7
+    temperature: Optional[float] = 0.1
     top_p: Optional[float] = 0.95
     max_tokens: Optional[int] = 2048
     stream: Optional[bool] = False
@@ -283,7 +283,9 @@ async def chat_completions(request: ChatCompletionRequest):
             tokenize=False,
             add_generation_prompt=True
         )
-        
+        print("len of text",len(text))
+        print("len of messages",len(messages))
+
         image_inputs, video_inputs = process_vision_info(messages)
         
         inputs = processor(
@@ -310,7 +312,7 @@ async def chat_completions(request: ChatCompletionRequest):
             skip_special_tokens=True,
             clean_up_tokenization_spaces=False
         )[0]
-        
+        print("Response From the LLM",response,'\n')
         if request.response_format and request.response_format.get("type") == "json_object":
             try:
                 if response.startswith('```'):
@@ -365,4 +367,4 @@ async def health_check():
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=9192)
+    uvicorn.run(app, host="0.0.0.0", port=5000)
